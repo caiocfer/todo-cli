@@ -1,9 +1,10 @@
 package cmd
 
 import (
-	"fmt"
+	"os"
 
 	"github.com/caiocfer/todo_cli/todo"
+	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +15,12 @@ var listCmd = &cobra.Command{
 }
 
 func listItems(cmd *cobra.Command, args []string) {
-
-	fmt.Println(todo.ListItems())
-
+	data := [][]string{
+		{"ID", "Name", "Completed"},
+	}
+	todo.ListItems()
+	table := tablewriter.NewWriter(os.Stdout)
+	table.Header(data[0])
+	table.Bulk(todo.ItemsList)
+	table.Render()
 }
