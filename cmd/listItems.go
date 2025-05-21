@@ -3,7 +3,7 @@ package cmd
 import (
 	"os"
 
-	"github.com/caiocfer/todo_cli/todo"
+	"github.com/caiocfer/todo_cli/localfile"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 )
@@ -18,9 +18,10 @@ func listItems(cmd *cobra.Command, args []string) {
 	data := [][]string{
 		{"ID", "Name", "Completed"},
 	}
-	todo.ListItems()
+	items := localfile.ReadJson()
+
 	table := tablewriter.NewWriter(os.Stdout)
 	table.Header(data[0])
-	table.Bulk(todo.ItemsList)
+	table.Bulk(items)
 	table.Render()
 }
