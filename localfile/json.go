@@ -49,10 +49,26 @@ func ReadJson() []todo.TodoItem {
 	err = json.Unmarshal(file, &readItems)
 	if err != nil {
 		fmt.Errorf("Failed to parse data", err)
-
 	}
 
 	return readItems
+}
+
+func UpdateJson(tasks []todo.TodoItem) error {
+	newTaskList, err := json.MarshalIndent(tasks, "", "")
+	if err != nil {
+		fmt.Println("Failed to marshal file")
+		return err
+	}
+
+	err = os.WriteFile(constants.FILE_NAME, newTaskList, 0644)
+	if err != nil {
+		fmt.Printf("Failed to write file: %v\n", err)
+		return err
+	}
+
+	return nil
+
 }
 
 func createFileIfNotExists() {
