@@ -13,6 +13,7 @@ func init() {
 	rootCmd.AddCommand(addCmd)
 	rootCmd.AddCommand(listCmd)
 	rootCmd.AddCommand(completeCmd)
+	rootCmd.AddCommand(deleteCmd)
 
 }
 

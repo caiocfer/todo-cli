@@ -27,6 +27,20 @@ func GetTaskItem(taskId int) todo.TodoItem {
 
 }
 
+func DeleteTask(taskId int) []todo.TodoItem {
+	tasks := ReadJson()
+	var newTaskList []todo.TodoItem
+
+	for i := range tasks {
+		if taskId == i {
+			newTaskList = append(tasks[:i], tasks[i+1:]...)
+		}
+	}
+
+	return newTaskList
+
+}
+
 func CompleteTask(taskId int) []todo.TodoItem {
 	tasks := ReadJson()
 	for i := range tasks {
