@@ -35,7 +35,12 @@ func deleteItem(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	updatedTaskList := localfile.DeleteTask(taskIdInt)
+	updatedTaskList, deleted := localfile.DeleteTask(taskIdInt)
+
+	if !deleted {
+		fmt.Println("Task Id not found")
+		return
+	}
 
 	err = localfile.UpdateJson(updatedTaskList)
 	if err != nil {

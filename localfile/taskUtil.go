@@ -1,53 +1,44 @@
 package localfile
 
 import (
-	"fmt"
-
 	"github.com/caiocfer/todo_cli/todo"
 )
 
 func GetTaskItem(taskId int) todo.TodoItem {
 
 	tasks := ReadJson()
-	fmt.Println(taskId)
-	var taskItem todo.TodoItem
-	foundItem := false
 	for i := range tasks {
-		if taskId == i {
-			taskItem = tasks[i]
-			foundItem = true
+		if taskId == tasks[i].Id {
+			return tasks[i]
 		}
+	}
 
-	}
-	if foundItem {
-		return taskItem
-	} else {
-		return todo.TodoItem{}
-	}
+	return todo.TodoItem{}
 
 }
 
-func DeleteTask(taskId int) []todo.TodoItem {
+func DeleteTask(taskId int) ([]todo.TodoItem, bool) {
 	tasks := ReadJson()
-	var newTaskList []todo.TodoItem
-
 	for i := range tasks {
-		if taskId == i {
-			newTaskList = append(tasks[:i], tasks[i+1:]...)
+		if taskId == tasks[i].Id {
+			return append(tasks[:i], tasks[i+1:]...), true
 		}
 	}
 
-	return newTaskList
+	// If not found, return the original list unchanged and false
+	return tasks, false
 
 }
 
 func CompleteTask(taskId int) []todo.TodoItem {
 	tasks := ReadJson()
 	for i := range tasks {
-		if taskId == i {
+		if taskId == tasks[i].Id {
 			tasks[i].Completed = true
+			break
 		}
 	}
 
 	return tasks
+
 }
